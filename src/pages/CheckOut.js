@@ -19,39 +19,38 @@ function CheckOut() {
       <Header />
       <main className='lg:flex max-w-screen-2xl mx-auto'>
         {/* Left */}
-        <div className='flex-grow m-5'>
+        <div className='flex-grow m-2'>
           <Image
             src='https://links.papareact.com/ikj'
             width={1020}
             height={250}
           />
-          <div className='flex flex-col bg-white shadow-sm rounded p-5 space-y-10 mt-4'>
-            <h1 className='text-2xl border-b pb-4'>
+
+          <div className='flex flex-col bg-white shadow-sm p-5 space-y-10 mt-4'>
+            <h1 className='text-2xl border-b pb-4 border-gray-100'>
               {items.length === 0
                 ? "Your Amazon basket is empty."
                 : "Shopping basket"}
             </h1>
-            <div>
-              {items.map((item, i) => (
-                <CheckoutProduct
-                  key={i}
-                  id={item.id}
-                  title={item.title}
-                  price={item.price}
-                  rating={item.rating}
-                  description={item.description}
-                  category={item.category}
-                  image={item.image}
-                  hasPrime={item.hasPrime}
-                />
-              ))}
-            </div>
+            {items.map((item, i) => (
+              <CheckoutProduct
+                key={i}
+                id={item.id}
+                title={item.title}
+                price={item.price}
+                rating={item.rating}
+                description={item.description}
+                category={item.category}
+                image={item.image}
+                hasPrime={item.hasPrime}
+              />
+            ))}
           </div>
         </div>
         {/* Right */}
-        <div className='bg-white flex flex-col p-10 shadow-md'>
-          {items.length > 0 && (
-            <>
+        {items.length > 0 && (
+          <>
+            <div className='bg-white flex flex-col p-10 shadow-sm m-2'>
               <h1>
                 Subtotal({items.length} Items):
                 <span className='font-bold'>
@@ -65,12 +64,13 @@ function CheckOut() {
                 }`}>
                 {!session ? "Sign in to checkout" : "Proceed to checkout"}
               </button>
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
       </main>
     </div>
   );
 }
 
 export default CheckOut;
+``;
