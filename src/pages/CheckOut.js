@@ -7,13 +7,31 @@ import { useSelector } from "react-redux";
 import { selectItems, selectTotal } from "../slices/basketSlice";
 import { useSession } from "next-auth/client";
 import Currency from "react-currency-formatter";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+const stripePromise = loadStripe(process.env.stripe_public_key);
 
 function CheckOut() {
-  const [session] = useSession();
   // Select from REDUX store
   const items = useSelector(selectItems);
-  // total
   const total = useSelector(selectTotal);
+  const [session] = useSession();
+
+  // function click to checkout
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+    // Call Backend to create  a checkout session
+    const checkoutSession = await axios.post("/api/create-checkout-session", {
+      items: items,
+      email: session.user.email,
+    });
+    // Redirect user/customer to Stripe checkout
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+    if (result.error) alert(result.error.message);
+  };
+
   return (
     <div>
       <Header />
@@ -58,6 +76,9 @@ function CheckOut() {
                 </span>
               </h1>
               <button
+                role='link'
+                onClick={createCheckoutSession}
+                disabled={!session}
                 className={`button mt-2 ${
                   !session &&
                   "from-gray-300 to-gray-500 border-gray-200 cursor-not-allowed"
@@ -73,4 +94,3 @@ function CheckOut() {
 }
 
 export default CheckOut;
-``;
