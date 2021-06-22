@@ -16,6 +16,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const endpointSecret = process.env.STRIPE_SIGNING_SECRET;
 
+//
 // Push importmation data users to firebase store
 const FulfillOrder = async (session) => {
   // console.log("fulfilling order", session);
@@ -36,6 +37,7 @@ const FulfillOrder = async (session) => {
       console.log(`SECCESS: orders ${session.id} had been added to DB`);
     });
 };
+// end
 
 export default async (req, res) => {
   if (req.method === "POST") {
@@ -64,8 +66,6 @@ export default async (req, res) => {
     }
   }
 };
-
-
 
 export const config = {
   api: {

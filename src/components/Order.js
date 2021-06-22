@@ -1,11 +1,12 @@
 /** @format */
 import moment from "moment";
-import Currency from "react-currency-formatter"
+import Currency from "react-currency-formatter";
 
 function Order({ id, amountShipping, amount, items, timestamp, images }) {
   return (
     <div>
-      <h1>orders</h1>
+      <p>{id}</p>
+      <p>{moment.unix(timestamp).format("DD MM YY")}</p>
     </div>
   );
 }
